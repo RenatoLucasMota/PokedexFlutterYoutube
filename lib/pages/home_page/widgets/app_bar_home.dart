@@ -38,7 +38,6 @@ class AppBarHome extends StatelessWidget {
         ],
       ),
       height: 120,
-      //color: (Color.fromARGB(200, 240, 245, 210)),
     );
   }
 }
