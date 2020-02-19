@@ -55,6 +55,23 @@ mixin _$PokeApiStore on _PokeApiStoreBase, Store {
     }, _$_pokemonAtualAtom, name: '${_$_pokemonAtualAtom.name}_set');
   }
 
+  final _$corPokemonAtom = Atom(name: '_PokeApiStoreBase.corPokemon');
+
+  @override
+  dynamic get corPokemon {
+    _$corPokemonAtom.context.enforceReadPolicy(_$corPokemonAtom);
+    _$corPokemonAtom.reportObserved();
+    return super.corPokemon;
+  }
+
+  @override
+  set corPokemon(dynamic value) {
+    _$corPokemonAtom.context.conditionallyRunInAction(() {
+      super.corPokemon = value;
+      _$corPokemonAtom.reportChanged();
+    }, _$corPokemonAtom, name: '${_$corPokemonAtom.name}_set');
+  }
+
   final _$_PokeApiStoreBaseActionController =
       ActionController(name: '_PokeApiStoreBase');
 
@@ -63,16 +80,6 @@ mixin _$PokeApiStore on _PokeApiStoreBase, Store {
     final _$actionInfo = _$_PokeApiStoreBaseActionController.startAction();
     try {
       return super.fetchPokemonList();
-    } finally {
-      _$_PokeApiStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic getPokemon({int index}) {
-    final _$actionInfo = _$_PokeApiStoreBaseActionController.startAction();
-    try {
-      return super.getPokemon(index: index);
     } finally {
       _$_PokeApiStoreBaseActionController.endAction(_$actionInfo);
     }
