@@ -72,6 +72,23 @@ mixin _$PokeApiStore on _PokeApiStoreBase, Store {
     }, _$corPokemonAtom, name: '${_$corPokemonAtom.name}_set');
   }
 
+  final _$posicaoAtualAtom = Atom(name: '_PokeApiStoreBase.posicaoAtual');
+
+  @override
+  int get posicaoAtual {
+    _$posicaoAtualAtom.context.enforceReadPolicy(_$posicaoAtualAtom);
+    _$posicaoAtualAtom.reportObserved();
+    return super.posicaoAtual;
+  }
+
+  @override
+  set posicaoAtual(int value) {
+    _$posicaoAtualAtom.context.conditionallyRunInAction(() {
+      super.posicaoAtual = value;
+      _$posicaoAtualAtom.reportChanged();
+    }, _$posicaoAtualAtom, name: '${_$posicaoAtualAtom.name}_set');
+  }
+
   final _$_PokeApiStoreBaseActionController =
       ActionController(name: '_PokeApiStoreBase');
 

@@ -90,15 +90,16 @@ class _HomePageState extends State<HomePage> {
                                             _pokemonStore.setPokemonAtual(
                                                 index: index);
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          PokeDetailPage(
-                                                    index: index,
-                                                  ),
-                                                  fullscreenDialog: true,
-                                                ));
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        PokeDetailPage(
+                                                  index: index,
+                                                ),
+                                                fullscreenDialog: true,
+                                              ),
+                                            );
                                           },
                                         ),
                                       ),
