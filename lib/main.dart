@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
       title: 'Pokedex - Youtube',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'Google'
+        fontFamily: 'Google',
+        brightness: Brightness.light,
       ),
       home: HomePage(),
     );
