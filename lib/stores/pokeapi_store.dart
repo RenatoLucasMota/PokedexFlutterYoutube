@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex_youtube/consts/consts_api.dart';
+import 'package:pokedex_youtube/consts/consts_app.dart';
 import 'package:pokedex_youtube/models/pokeapi.dart';
 import 'package:http/http.dart' as http;
 part 'pokeapi_store.g.dart';
@@ -11,12 +12,11 @@ part 'pokeapi_store.g.dart';
 class PokeApiStore = _PokeApiStoreBase with _$PokeApiStore;
 
 abstract class _PokeApiStoreBase with Store {
+  @observable
+  PokeAPI _pokeAPI;
 
   @observable
-  PokeAPI _pokeAPI; 
-
-  @observable
-  Pokemon _pokemonAtual; 
+  Pokemon _pokemonAtual;
 
   @observable
   dynamic corPokemon;
@@ -24,10 +24,10 @@ abstract class _PokeApiStoreBase with Store {
   @observable
   int posicaoAtual;
 
-  @computed 
+  @computed
   PokeAPI get pokeAPI => _pokeAPI;
 
-  @computed 
+  @computed
   Pokemon get pokemonAtual => _pokemonAtual;
 
   @action
@@ -38,18 +38,18 @@ abstract class _PokeApiStoreBase with Store {
     });
   }
 
-  Pokemon getPokemon({int index}){
+  Pokemon getPokemon({int index}) {
     return _pokeAPI.pokemon[index];
   }
 
-  @action 
-  setPokemonAtual({int index}){
+  @action
+  setPokemonAtual({int index}) {
     _pokemonAtual = _pokeAPI.pokemon[index];
-    corPokemon = ConstsAPI.getColorType(type: _pokemonAtual.type[0]);
+    corPokemon = ConstsApp.getColorType(type: _pokemonAtual.type[0]);
     posicaoAtual = index;
   }
 
-  @action 
+  @action
   Widget getImage({String numero}) {
     return CachedNetworkImage(
       placeholder: (context, url) => new Container(
@@ -70,6 +70,4 @@ abstract class _PokeApiStoreBase with Store {
       return null;
     }
   }
-
-  
 }

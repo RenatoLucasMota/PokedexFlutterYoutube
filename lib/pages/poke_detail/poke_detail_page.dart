@@ -4,7 +4,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokedex_youtube/consts/consts_app.dart';
 import 'package:pokedex_youtube/models/pokeapi.dart';
+import 'package:pokedex_youtube/pages/about_page/about_page.dart';
 import 'package:pokedex_youtube/stores/pokeapi_store.dart';
+import 'package:pokedex_youtube/stores/pokeapiv2_store.dart';
 import 'package:simple_animations/simple_animations/controlled_animation.dart';
 import 'package:simple_animations/simple_animations/multi_track_tween.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
@@ -20,6 +22,7 @@ class PokeDetailPage extends StatefulWidget {
 class _PokeDetailPageState extends State<PokeDetailPage> {
   PageController _pageController;
   PokeApiStore _pokemonStore;
+  PokeApiV2Store _pokeApiV2Store;
   MultiTrackTween _animation;
   double _progress;
   double _multiple;
@@ -32,6 +35,7 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
     _pageController =
         PageController(initialPage: widget.index, viewportFraction: 0.5);
     _pokemonStore = GetIt.instance<PokeApiStore>();
+    _pokeApiV2Store = GetIt.instance<PokeApiV2Store>();
     _animation = MultiTrackTween([
       Track("rotation").add(Duration(seconds: 5), Tween(begin: 0.0, end: 6.0),
           curve: Curves.linear)
@@ -59,6 +63,14 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
           Observer(
             builder: (context) {
               return AnimatedContainer(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      _pokemonStore.corPokemon.withOpacity(0.7),
+                      _pokemonStore.corPokemon,
+                    ])),
                 child: Stack(
                   children: <Widget>[
                     AppBar(
@@ -150,7 +162,6 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
                     ),
                   ],
                 ),
-                color: _pokemonStore.corPokemon,
                 duration: Duration(milliseconds: 300),
               );
             },
@@ -173,7 +184,9 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
             ),
             builder: (context, state) {
               return Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).size.height * 0.12,
+                child: AboutPage(),
               );
             },
           ),
@@ -187,6 +200,8 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
                   controller: _pageController,
                   onPageChanged: (index) {
                     _pokemonStore.setPokemonAtual(index: index);
+                    _pokeApiV2Store.getInfoPokemon(_pokemonStore.pokemonAtual.name);
+                    _pokeApiV2Store.getInfoSpecie(_pokemonStore.pokemonAtual.id.toString());
                   },
                   itemCount: _pokemonStore.pokeAPI.pokemon.length,
                   itemBuilder: (BuildContext context, int index) {
